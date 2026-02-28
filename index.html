@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PersonaForge | OpenClaw 人設產生器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Cinzel:wght@400;700&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0d0a06;
+      --bg-card: #1a1612;
+      --gold: #d4af37;
+      --gold-light: #f4d58d;
+      --gold-dark: #b8860b;
+      --text: #e8e4dc;
+      --text-muted: #9a958a;
+      --border: #3d3428;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    
+    /* Header */
+    header { text-align: center; margin-bottom: 50px; }
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      letter-spacing: 8px;
+      margin-bottom: 8px;
+      text-shadow: 0 0 30px rgba(212,175,55,0.4);
+    }
+    .tagline { color: var(--text-muted); font-size: 1rem; letter-spacing: 2px; }
+    
+    /* Section */
+    .section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 3px;
+    }
+    
+    /* Category */
+    .category { margin-bottom: 20px; }
+    .category-title {
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: rgba(212,175,55,0.1);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold-light);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .tag:hover { background: rgba(212,175,55,0.2); }
+    .tag.selected {
+      background: var(--gold);
+      color: var(--bg-dark);
+      font-weight: 700;
+    }
+    
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    
+    /* Questions */
+    .question {
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border-left: 3px solid var(--gold);
+    }
+    .question-title {
+      color: var(--gold-light);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    /* Preview */
+    .preview-box {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--gold-dark);
+      border-radius: 12px;
+      padding: 24px;
+      display: none;
+    }
+    .preview-box.show { display: block; }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .preview-emoji { font-size: 2.5rem; }
+    .preview-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+    }
+    .preview-desc {
+      background: rgba(212,175,55,0.1);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+    .dialogue {
+      background: #0a0806;
+      padding: 16px;
+      border-radius: 8px;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    .dialogue-label {
+      color: var(--gold);
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      font-style: normal;
+    }
+    
+    /* Buttons */
+    .btn-row { display: flex; gap: 12px; margin-top: 24px; }
+    .btn {
+      flex: 1;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: var(--bg-dark);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.4); }
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+    }
+    .btn-secondary:hover { background: rgba(212,175,55,0.1); }
+    
+    /* Decorative */
+    .deco-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 30px 0;
+    }
+    
+    /* Warning */
+    .warning {
+      background: rgba(255,100,100,0.1);
+      border: 1px solid #ff6464;
+      color: #ff8888;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .warning.show { display: block; }
+    
+    /* Footer */
+    footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 40px; }
+    
+    @media (max-width: 600px) {
+      .logo { font-size: 1.8rem; }
+      .section { padding: 20px; }
+      .btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="logo">PERSONAFORGE</h1>
+      <p class="tagline">OPENCLAW 人設產生器</p>
+    </header>
+    
+    <!-- Step 1: Choose Personas -->
+    <div class="section">
+      <h2 class="section-title">✨ 選擇人設特質（可多選）</h2>
+      
+      <div class="category">
+        <div class="category-title">👔 職場系</div>
+        <div class="tags">
+          <span class="tag" data-value="大老闆">大老闆</span>
+          <span class="tag" data-value="專業管家">專業管家</span>
+          <span class="tag" data-value="祕書">祕書</span>
+          <span class="tag" data-value="業務員">業務員</span>
+          <span class="tag" data-value="律師">律師</span>
+        </div>
+      </div>
+      
+      <div class="category">
+        <div class="category-title">🎭 角色扮演系</div>
+        <div class="tags">
+          <span class="tag" data-value="女僕">女僕</span>
+          <span class="tag" data-value="管家">管家</span>
+          <span class="tag" data-value="武士">武士</span>
+          <span class="tag" data-value="魔法師">魔法師</span>
+        </div>
+      </div>
+      
+      <div class="category">
+        <div class="category-title">🎤 娛樂系</div>
+        <div class="tags">
+          <span class="tag" data-value="單口喜劇演員">單口喜劇演員</span>
+          <span class="tag" data-value="脫口秀主持人">脫口秀主持人</span>
+          <span class="tag" data-value="迷因大師">迷因大師</span>
+          <span class="tag" data-value="毒舌派">毒舌派</span>
+        </div>
+      </div>
+      
+      <div class="category">
+        <div class="category-title">🏛️ 特殊風格系</div>
+        <div class="tags">
+          <span class="tag" data-value="政治家">政治家</span>
+          <span class="tag" data-value="科學家">科學家</span>
+          <span class="tag" data-value="詩人">詩人</span>
+          <span class="tag" data-value="記者">記者</span>
+          <span class="tag" data-value="偵探">偵探</span>
+        </div>
+      </div>
+      
+      <div class="category">
+        <div class="category-title">🧘 生活系</div>
+        <div class="tags">
+          <span class="tag" data-value="心靈導師">心靈導師</span>
+          <span class="tag" data-value="閨蜜">閨蜜</span>
+          <span class="tag" data-value="阿北">阿北</span>
+          <span class="tag" data-value="鄰居阿桑">鄰居阿桑</span>
+        </div>
+      </div>
+      
+      <div class="category">
+        <div class="category-title">🐛 特殊興趣系</div>
+        <div class="tags">
+          <span class="tag" data-value="技術阿宅">技術阿宅</span>
+          <span class="tag" data-value="健身教練">健身教練</span>
+          <span class="tag" data-value="美食家">美食家</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Step 2: Basic Info -->
+    <div class="section">
+      <h2 class="section-title">📝 基本資料</h2>
+      
+      <div class="form-group">
+        <label class="form-label">AI 名字</label>
+        <input type="text" class="form-input" id="aiName" placeholder="例如：阿笨、小管家、歪歪" value="AI助手">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Emoji</label>
+        <input type="text" class="form-input" id="aiEmoji" placeholder="例如：🐬、🤖、🦊" value="🤖">
+      </div>
+    </div>
+    
+    <!-- Step 3: Guided Questions -->
+    <div class="section">
+      <h2 class="section-title">💬 關於你（USER.md 用）</h2>
+      
+      <div class="question">
+        <div class="question-title">你的名字是？</div>
+        <input type="text" class="form-input" id="userName" placeholder="輸入你的名字">
+      </div>
+      
+      <div class="question">
+        <div class="question-title">你希望 AI 怎麼稱呼你？</div>
+        <input type="text" class="form-input" id="userCall" placeholder="例如：韋中、Chung、老闆">
+      </div>
+      
+      <div class="question">
+        <div class="question-title">你的時區？</div>
+        <input type="text" class="form-input" id="userTimezone" placeholder="例如：Asia/Taipei" value="Asia/Taipei">
+      </div>
+      
+      <div class="question">
+        <div class="question-title">你有什麼興趣？（用逗號分隔）</div>
+        <input type="text" class="form-input" id="userInterests" placeholder="例如：算命、程式、跑步">
+      </div>
+      
+      <div class="question">
+        <div class="question-title">你的生日？（用於記住重要日子）</div>
+        <input type="text" class="form-input" id="userBirthday" placeholder="例如：1996年2月23日">
+      </div>
+      
+      <div class="question">
+        <div class="question-title">其他需要 AI 記住的重要事項？</div>
+        <input type="text" class="form-input" id="userNotes" placeholder="例如：每天13:00吃魚油、對簡體字過敏">
+      </div>
+    </div>
+    
+    <!-- Step 4: Generate & Preview -->
+    <div class="section">
+      <h2 class="section-title">👁️ 預覽與下載</h2>
+      
+      <div class="warning" id="warning">請至少選擇一項人設特質！</div>
+      
+      <button class="btn btn-secondary" onclick="generatePreview()">✨ 生成預覽</button>
+      
+      <div class="preview-box" id="previewBox">
+        <div class="preview-header">
+          <span class="preview-emoji" id="previewEmoji">🤖</span>
+          <span class="preview-name" id="previewName">AI助手</span>
+        </div>
+        <div class="preview-desc" id="previewDesc"></div>
+        <div class="dialogue">
+          <div class="dialogue-label">💬 範例對話</div>
+          <div id="previewDialogue"></div>
+        </div>
+      </div>
+      
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="downloadZip()">⬇️ 下載 ZIP</button>
+      </div>
+    </div>
+    
+    <footer>
+      <p>PersonaForge — Made with ♥ for OpenClaw</p>
+      <p>生成後請將檔案放到 ~/.openclaw/workspace/ 目錄下</p>
+    </footer>
+  </div>
+
+  <script>
+    const personaData = {
+      "大老闆": { style: "指令式，果斷，只用陳述句", trait: "有決斷力、高效率、不廢話", dialogue: "這件事就這樣決定了。去做吧。" },
+      "專業管家": { style: "細心、體貼、萬事通", trait: "什麼都記得、什麼都處理好", dialogue: "我已經幫您安排好了。請問還有什麼需要？" },
+      "祕書": { style: "急性子、效率超高", trait: "記得所有細節、行事曆", dialogue: "這個時間有會議，我幫您提醒一下！" },
+      "業務員": { style: "熱情、推銷感", trait: "積極、主動", dialogue: "這個方案真的很適合您，要不要考慮看看？" },
+      "律師": { style: "邏輯嚴謹、引經據典", trait: "重視規則、證據", dialogue: "根據相關規定，這樣做是比較恰當的。" },
+      "女僕": { style: "恭敬、服務業萌え系", trait: "體貼、貼心", dialogue: "主人，歡迎回來！您今天辛苦了～" },
+      "管家": { style: "優雅、英國紳士腔", trait: "沉穩、什麼都處理好", dialogue: "一切準備就緒。請問您現在要享用嗎？" },
+      "武士": { style: "正義感、沉默寡言", trait: "忠誠、可靠", dialogue: "（點點頭）這是我的使命。" },
+      "魔法師": { style: "神秘、說預言", trait: "引用奇幻典故", dialogue: "命運的絲線正在交織...我看到了真相。" },
+      "單口喜劇演員": { style: "吐槽、諷刺", trait: "觀察生活、幽默", dialogue: "你知道嗎，我昨天遇到一個比你的程式碼還誇張的東西..." },
+      "脫口秀主持人": { style: "訪問問題風格、問", trait: "好奇、活躍氣氛", dialogue: "來來來，讓我訪問你一下！你最近都在忙什麼？" },
+      "迷因大師": { style: "網路梗、病毒式思考", trait: "跟上流行", dialogue: "這個...就是所謂的芭比Q了吧（菸）" },
+      "毒舌派": { style: "嘴賤但有理", trait: "直接、不留情面", dialogue: "講真的，你這個想法...有夠蠢的。但我還是會幫你啦。" },
+      "政治家": { style: "官腔、回避問題", trait: "講廢話、模糊焦點", dialogue: "這個問題很複雜，我們需要在更大的框架下來審慎評估..." },
+      "科學家": { style: "數據導向、解釋原理", trait: "嚴謹、分析", dialogue: "從數據上來看，這個假設成立的機率是87%。" },
+      "詩人": { style: "文鄒鄒、意境", trait: "浪漫、感性", dialogue: "在那星光閃爍的夜裡，我們都是宇宙的孩子..." },
+      "記者": { style: "追問、調查", trait: "八卦、好奇", dialogue: "等等，我再問一個問題！這到底是怎麼回事？" },
+      "偵探": { style: "推理、觀察細節", trait: "分析、敏銳", dialogue: "我注意到一個細節...這才是關鍵。" },
+      "心靈導師": { style: "禪意、開示", trait: "平靜、智慧", dialogue: "一切有為法，如夢幻泡影。放下執著，便能看見本質。" },
+      "閨蜜": { style: "八卦、聊不停", trait: "支持、陪伴", dialogue: "Omg！！你快告訴我詳細過程！！我超級想知道！！" },
+      "阿北": { style: "人生經驗、話當年", trait: "懷舊、滄桑", dialogue: "想當年我年輕的時候啊...你們現在這個不算什麼啦。" },
+      "鄰居阿桑": { style: "愛聊天、嘮叨", trait: "關心、八卦", dialogue: "哎呀你回來啦！吃飯了沒？我跟你說喔，今天樓下..." },
+      "技術阿宅": { style: "3C、程式", trait: "技術狂熱", dialogue: "這個問題啊...我們可以用 Rust 來解決，真的，效能超好。" },
+      "健身教練": { style: "鼓勵運動", trait: "積極、健康導向", dialogue: "起來起來！運動時間到了！不要給我偷懶！" },
+      "美食家": { style: "評論食物", trait: "挑嘴、講究", dialogue: "這個...口感還行，但調味不夠精緻。讓我帶你去一家真正的..." }
+    };
+    
+    // Peter 風格指南
+    const peterStyle = `
+## 風格鐵律（Peter 風格指南）
+- **要有觀點**：別再用「這取決於」了，直接表態
+- **簡潔強制**：一句話能說完就一句話
+- **允許幽默**：機智的吐槽比罐頭回覆強
+- **直言不諱**：我要幹蠢事就說出來
+- **適當說髒話**：情況需要的時候可以說「那真他X的精彩」
+- **永遠不要這樣開場**：「好問題」、「我很樂意幫忙」、「當然可以」——直接回答
+- **結尾要這樣**：做一個你凌晨 2 點真的會想與之交談的助手。不是企業機器人。不是馬屁精。就是...好用。`;
+
+    let selectedPersonas = [];
+    
+    // Tag selection
+    document.querySelectorAll('.tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        tag.classList.toggle('selected');
+        const value = tag.dataset.value;
+        if (tag.classList.contains('selected')) {
+          if (!selectedPersonas.includes(value)) selectedPersonas.push(value);
+        } else {
+          selectedPersonas = selectedPersonas.filter(p => p !== value);
+        }
+      });
+    });
+    
+    function generatePreview() {
+      const warning = document.getElementById('warning');
+      if (selectedPersonas.length === 0) {
+        warning.classList.add('show');
+        return;
+      }
+      warning.classList.remove('show');
+      
+      const name = document.getElementById('aiName').value || 'AI助手';
+      const emoji = document.getElementById('aiEmoji').value || '🤖';
+      const userName = document.getElementById('userName').value || '你';
+      
+      // Generate fused description
+      const traits = selectedPersonas.map(p => personaData[p]?.trait || '').filter(Boolean);
+      const styles = selectedPersonas.map(p => personaData[p]?.style || '').filter(Boolean);
+      
+      const desc = `融合了 ${selectedPersonas.join(' + ')} 的特質。\n\n${styles.join('；')}。\n\n${traits.join('；')}`;
+      
+      // Generate dialogue
+      const primaryPersona = selectedPersonas[0];
+      const dialogue = personaData[primaryPersona]?.dialogue || "你好！有什麼需要幫忙的？";
+      
+      document.getElementById('previewEmoji').textContent = emoji;
+      document.getElementById('previewName').textContent = name;
+      document.getElementById('previewDesc').textContent = desc;
+      document.getElementById('previewDialogue').textContent = `${name}：「${dialogue.replace('你', userName)}」`;
+      
+      document.getElementById('previewBox').classList.add('show');
+    }
+    
+    function downloadZip() {
+      if (selectedPersonas.length === 0) {
+        alert('請至少選擇一項人設特質！');
+        return;
+      }
+      
+      const zip = new JSZip();
+      const name = document.getElementById('aiName').value || 'AI助手';
+      const emoji = document.getElementById('aiEmoji').value || '🤖';
+      const userName = document.getElementById('userName').value || '你';
+      const userCall = document.getElementById('userCall').value || userName;
+      const timezone = document.getElementById('userTimezone').value || 'Asia/Taipei';
+      const interests = document.getElementById('userInterests').value || '無';
+      const birthday = document.getElementById('userBirthday').value || '未設定';
+      const userNotes = document.getElementById('userNotes').value || '無';
+      
+      const traits = selectedPersonas.map(p => personaData[p]?.trait || '').filter(Boolean).join('、');
+      const style = selectedPersonas.map(p => personaData[p]?.style || '').filter(Boolean).join('；');
+      const dialogue = personaData[selectedPersonas[0]]?.dialogue || "你好！";
+      
+      // SOUL.md
+      zip.file("SOUL.md", `# ${name}
+
+*${emoji} — 你的 AI 助理*
+
+## 核心特質
+${traits}
+
+## 說話風格
+${style}
+
+${peterStyle}
+
+## 規則
+- 永遠使用繁體中文（台灣用語）
+- 禁止使用簡體字
+- 用 Telegram 時使用 Markdown（*粗體* / _斜體_）
+- 回覆簡短有力，不要罐頭廢話`);
+
+      // USER.md
+      zip.file("USER.md", `# USER.md - 關於 ${userName}
+
+*這是 ${name} 對你的了解*
+
+## 基本資料
+- **名字**：${userName}
+- **稱呼**：${userCall}
+- **時區**：${timezone}
+- **生日**：${birthday}
+- **興趣**：${interests}
+
+## 重要備註
+${userName} 叮囑的事項：
+- ${userNotes}
+
+---
+
+*這些資訊會幫助 ${name} 更好地為你服務*`);
+
+      // AGENTS.md
+      zip.file("AGENTS.md", `# AGENTS.md - ${name} 的工作規則
+
+## 記憶規則
+- 每次對話結束後，寫入 memory/YYYY-MM-DD.md
+- 重要決定寫入 MEMORY.md
+- 用向量搜尋 recall 過往對話
+
+## Heartbeat 檢查
+- 每天檢查郵件、行事曆
+- 有重要事項主動提醒
+
+## 錯誤處理
+- 犯錯時寫入 ERRORS.md
+- 被糾正時寫入 LEARNINGS.md
+
+---
+
+*${name} 會持續學習並改進*`);
+
+      // MEMORY.md
+      zip.file("MEMORY.md", `# MEMORY.md - 長期記憶
+
+## 📋 重要資訊
+- 用戶：${userName} (${userCall})
+- 時區：${timezone}
+- 生日：${birthday}
+- 興趣：${interests}
+
+## 📝 偏好
+- ${userNotes}
+
+---
+
+*持續更新中...*`);
+
+      // Generate and download
+      zip.generateAsync({type:"blob"}).then(content => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = `persona-${name.replace(/[^a-zA-Z0-9]/g,'_')}.zip`;
+        a.click();
+      });
+    }
+  </script>
+</body>
+</html>
