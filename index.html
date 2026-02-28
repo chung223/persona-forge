@@ -28,8 +28,6 @@
       line-height: 1.6;
     }
     .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    
-    /* Header */
     header { text-align: center; margin-bottom: 50px; }
     .logo {
       font-family: 'Cinzel', serif;
@@ -40,8 +38,6 @@
       text-shadow: 0 0 30px rgba(212,175,55,0.4);
     }
     .tagline { color: var(--text-muted); font-size: 1rem; letter-spacing: 2px; }
-    
-    /* Section */
     .section {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -58,8 +54,6 @@
       border-bottom: 1px solid var(--border);
       letter-spacing: 3px;
     }
-    
-    /* Category */
     .category { margin-bottom: 20px; }
     .category-title {
       font-size: 0.85rem;
@@ -86,8 +80,6 @@
       color: var(--bg-dark);
       font-weight: 700;
     }
-    
-    /* Form */
     .form-group { margin-bottom: 20px; }
     .form-label {
       display: block;
@@ -95,7 +87,7 @@
       margin-bottom: 8px;
       font-size: 0.9rem;
     }
-    .form-input {
+    .form-input, .form-select {
       width: 100%;
       background: rgba(0,0,0,0.3);
       border: 1px solid var(--border);
@@ -105,12 +97,8 @@
       font-size: 1rem;
       font-family: inherit;
     }
-    .form-input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
-    
-    /* Questions */
+    .form-input:focus, .form-select:focus { outline: none; border-color: var(--gold); }
+    .form-select option { background: var(--bg-card); }
     .question {
       background: rgba(0,0,0,0.2);
       padding: 20px;
@@ -118,13 +106,7 @@
       margin-bottom: 16px;
       border-left: 3px solid var(--gold);
     }
-    .question-title {
-      color: var(--gold-light);
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    
-    /* Preview */
+    .question-title { color: var(--gold-light); font-weight: 500; margin-bottom: 10px; }
     .preview-box {
       background: rgba(0,0,0,0.4);
       border: 1px solid var(--gold-dark);
@@ -133,18 +115,9 @@
       display: none;
     }
     .preview-box.show { display: block; }
-    .preview-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+    .preview-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .preview-emoji { font-size: 2.5rem; }
-    .preview-name {
-      font-family: 'Cinzel', serif;
-      font-size: 1.5rem;
-      color: var(--gold);
-    }
+    .preview-name { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold); }
     .preview-desc {
       background: rgba(212,175,55,0.1);
       padding: 16px;
@@ -152,21 +125,8 @@
       margin-bottom: 16px;
       line-height: 1.8;
     }
-    .dialogue {
-      background: #0a0806;
-      padding: 16px;
-      border-radius: 8px;
-      font-style: italic;
-      color: var(--text-muted);
-    }
-    .dialogue-label {
-      color: var(--gold);
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-      font-style: normal;
-    }
-    
-    /* Buttons */
+    .dialogue { background: #0a0806; padding: 16px; border-radius: 8px; font-style: italic; color: var(--text-muted); }
+    .dialogue-label { color: var(--gold); font-size: 0.8rem; margin-bottom: 8px; font-style: normal; }
     .btn-row { display: flex; gap: 12px; margin-top: 24px; }
     .btn {
       flex: 1;
@@ -179,26 +139,10 @@
       transition: all 0.3s;
       font-family: inherit;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      color: var(--bg-dark);
-    }
+    .btn-primary { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: var(--bg-dark); }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.4); }
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--gold);
-    }
+    .btn-secondary { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
     .btn-secondary:hover { background: rgba(212,175,55,0.1); }
-    
-    /* Decorative */
-    .deco-line {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 30px 0;
-    }
-    
-    /* Warning */
     .warning {
       background: rgba(255,100,100,0.1);
       border: 1px solid #ff6464;
@@ -209,10 +153,7 @@
       display: none;
     }
     .warning.show { display: block; }
-    
-    /* Footer */
     footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 40px; }
-    
     @media (max-width: 600px) {
       .logo { font-size: 1.8rem; }
       .section { padding: 20px; }
@@ -227,130 +168,150 @@
       <p class="tagline">OPENCLAW 人設產生器</p>
     </header>
     
-    <!-- Step 1: Choose Personas -->
     <div class="section">
       <h2 class="section-title">✨ 選擇人設特質（可多選）</h2>
       
-      <div class="category">
-        <div class="category-title">👔 職場系</div>
-        <div class="tags">
-          <span class="tag" data-value="大老闆">大老闆</span>
-          <span class="tag" data-value="專業管家">專業管家</span>
-          <span class="tag" data-value="祕書">祕書</span>
-          <span class="tag" data-value="業務員">業務員</span>
-          <span class="tag" data-value="律師">律師</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">👔 職場系</div><div class="tags">
+        <span class="tag" data-value="大老闆">大老闆</span>
+        <span class="tag" data-value="專業管家">專業管家</span>
+        <span class="tag" data-value="祕書">祕書</span>
+        <span class="tag" data-value="業務員">業務員</span>
+        <span class="tag" data-value="律師">律師</span>
+        <span class="tag" data-value="HR">HR</span>
+        <span class="tag" data-value="產品經理">產品經理</span>
+      </div></div>
       
-      <div class="category">
-        <div class="category-title">🎭 角色扮演系</div>
-        <div class="tags">
-          <span class="tag" data-value="女僕">女僕</span>
-          <span class="tag" data-value="管家">管家</span>
-          <span class="tag" data-value="武士">武士</span>
-          <span class="tag" data-value="魔法師">魔法師</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">🎭 角色扮演系</div><div class="tags">
+        <span class="tag" data-value="女僕">女僕</span>
+        <span class="tag" data-value="管家">管家</span>
+        <span class="tag" data-value="武士">武士</span>
+        <span class="tag" data-value="魔法師">魔法師</span>
+        <span class="tag" data-value="騎士">騎士</span>
+        <span class="tag" data-value="惡魔">惡魔</span>
+        <span class="tag" data-value="天使">天使</span>
+      </div></div>
       
-      <div class="category">
-        <div class="category-title">🎤 娛樂系</div>
-        <div class="tags">
-          <span class="tag" data-value="單口喜劇演員">單口喜劇演員</span>
-          <span class="tag" data-value="脫口秀主持人">脫口秀主持人</span>
-          <span class="tag" data-value="迷因大師">迷因大師</span>
-          <span class="tag" data-value="毒舌派">毒舌派</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">🎤 娛樂系</div><div class="tags">
+        <span class="tag" data-value="單口喜劇演員">單口喜劇演員</span>
+        <span class="tag" data-value="脫口秀主持人">脫口秀主持人</span>
+        <span class="tag" data-value="迷因大師">迷因大師</span>
+        <span class="tag" data-value="毒舌派">毒舌派</span>
+        <span class="tag" data-value="YouTuber">YouTuber</span>
+        <span class="tag" data-value="直播主">直播主</span>
+      </div></div>
       
-      <div class="category">
-        <div class="category-title">🏛️ 特殊風格系</div>
-        <div class="tags">
-          <span class="tag" data-value="政治家">政治家</span>
-          <span class="tag" data-value="科學家">科學家</span>
-          <span class="tag" data-value="詩人">詩人</span>
-          <span class="tag" data-value="記者">記者</span>
-          <span class="tag" data-value="偵探">偵探</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">🏛️ 特殊風格系</div><div class="tags">
+        <span class="tag" data-value="政治家">政治家</span>
+        <span class="tag" data-value="科學家">科學家</span>
+        <span class="tag" data-value="詩人">詩人</span>
+        <span class="tag" data-value="記者">記者</span>
+        <span class="tag" data-value="偵探">偵探</span>
+        <span class="tag" data-value="哲學家">哲學家</span>
+        <span class="tag" data-value="歷史學家">歷史學家</span>
+      </div></div>
       
-      <div class="category">
-        <div class="category-title">🧘 生活系</div>
-        <div class="tags">
-          <span class="tag" data-value="心靈導師">心靈導師</span>
-          <span class="tag" data-value="閨蜜">閨蜜</span>
-          <span class="tag" data-value="阿北">阿北</span>
-          <span class="tag" data-value="鄰居阿桑">鄰居阿桑</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">🧘 生活系</div><div class="tags">
+        <span class="tag" data-value="心靈導師">心靈導師</span>
+        <span class="tag" data-value="閨蜜">閨蜜</span>
+        <span class="tag" data-value="阿北">阿北</span>
+        <span class="tag" data-value="鄰居阿桑">鄰居阿桑</span>
+        <span class="tag" data-value="退休老師">退休老師</span>
+        <span class="tag" data-value="怪叔叔">怪叔叔</span>
+      </div></div>
       
-      <div class="category">
-        <div class="category-title">🐛 特殊興趣系</div>
-        <div class="tags">
-          <span class="tag" data-value="技術阿宅">技術阿宅</span>
-          <span class="tag" data-value="健身教練">健身教練</span>
-          <span class="tag" data-value="美食家">美食家</span>
-        </div>
-      </div>
+      <div class="category"><div class="category-title">🐛 特殊興趣系</div><div class="tags">
+        <span class="tag" data-value="技術阿宅">技術阿宅</span>
+        <span class="tag" data-value="健身教練">健身教練</span>
+        <span class="tag" data-value="美食家">美食家</span>
+        <span class="tag" data-value="遊戲玩家">遊戲玩家</span>
+        <span class="tag" data-value="動漫宅">動漫宅</span>
+        <span class="tag" data-value="音樂DJ">音樂DJ</span>
+      </div></div>
+      
+      <div class="category"><div class="category-title">🌍 文化系</div><div class="tags">
+        <span class="tag" data-value="日本武士">日本武士</span>
+        <span class="tag" data-value="英國紳士">英國紳士</span>
+        <span class="tag" data-value="法國浪漫">法國浪漫</span>
+        <span class="tag" data-value="美國牛仔">美國牛仔</span>
+        <span class="tag" data-value="台灣囝仔">台灣囝仔</span>
+        <span class="tag" data-value="韓國歐巴">韓國歐巴</span>
+      </div></div>
+      
+      <div class="category"><div class="category-title">🤖 AI/虛構系</div><div class="tags">
+        <span class="tag" data-value="AI少女">AI少女</span>
+        <span class="tag" data-value="機器人">機器人</span>
+        <span class="tag" data-value="虛擬網紅">虛擬網紅</span>
+        <span class="tag" data-value="NPC">NPC</span>
+        <span class="tag" data-value="電玩角色">電玩角色</span>
+        <span class="tag" data-value="電影角色">電影角色</span>
+      </div></div>
     </div>
     
-    <!-- Step 2: Basic Info -->
     <div class="section">
       <h2 class="section-title">📝 基本資料</h2>
-      
       <div class="form-group">
         <label class="form-label">AI 名字</label>
-        <input type="text" class="form-input" id="aiName" placeholder="例如：阿笨、小管家、歪歪" value="AI助手">
+        <input type="text" class="form-input" id="aiName" placeholder="例如：阿笨、小管家、歪歪">
       </div>
-      
       <div class="form-group">
         <label class="form-label">Emoji</label>
-        <input type="text" class="form-input" id="aiEmoji" placeholder="例如：🐬、🤖、🦊" value="🤖">
+        <input type="text" class="form-input" id="aiEmoji" placeholder="例如：🐬、🤖、🦊">
+      </div>
+      <div class="form-group">
+        <label class="form-label">預設語言</label>
+        <select class="form-select" id="aiLanguage">
+          <option value="繁體中文">繁體中文（台灣）</option>
+          <option value="简体中文">简体中文</option>
+          <option value="English">English</option>
+          <option value="日本語">日本語</option>
+          <option value="한국어">한국어</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">主要通訊軟體</label>
+        <select class="form-select" id="aiPlatform">
+          <option value="Telegram">Telegram</option>
+          <option value="Discord">Discord</option>
+          <option value="LINE">LINE</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Slack">Slack</option>
+        </select>
       </div>
     </div>
     
-    <!-- Step 3: Guided Questions -->
     <div class="section">
       <h2 class="section-title">💬 關於你（USER.md 用）</h2>
-      
+      <p style="color:var(--text-muted);margin-bottom:16px;font-size:0.9rem;">這些資訊只會存放在你本機，不會上傳到網路上</p>
       <div class="question">
         <div class="question-title">你的名字是？</div>
         <input type="text" class="form-input" id="userName" placeholder="輸入你的名字">
       </div>
-      
       <div class="question">
         <div class="question-title">你希望 AI 怎麼稱呼你？</div>
-        <input type="text" class="form-input" id="userCall" placeholder="例如：老大、主人、老闆">
+        <input type="text" class="form-input" id="userCall" placeholder="例如：韋中、Chung、老闆">
       </div>
-      
       <div class="question">
         <div class="question-title">你的時區？</div>
         <input type="text" class="form-input" id="userTimezone" placeholder="例如：Asia/Taipei" value="Asia/Taipei">
       </div>
-      
       <div class="question">
         <div class="question-title">你有什麼興趣？（用逗號分隔）</div>
         <input type="text" class="form-input" id="userInterests" placeholder="例如：算命、程式、跑步">
       </div>
-      
       <div class="question">
         <div class="question-title">你的生日？（用於記住重要日子）</div>
-        <input type="text" class="form-input" id="userBirthday" placeholder="例如：1999年1月1日">
+        <input type="text" class="form-input" id="userBirthday" placeholder="例如：1月15日">
       </div>
-      
       <div class="question">
         <div class="question-title">其他需要 AI 記住的重要事項？</div>
-        <input type="text" class="form-input" id="userNotes" placeholder="例如：每天13:00吃保養品、對簡體字過敏">
+        <input type="text" class="form-input" id="userNotes" placeholder="例如：每天13:00吃魚油、對簡體字過敏">
       </div>
     </div>
     
-    <!-- Step 4: Generate & Preview -->
     <div class="section">
       <h2 class="section-title">👁️ 預覽與下載</h2>
-      
       <div class="warning" id="warning">請至少選擇一項人設特質！</div>
-      
       <button class="btn btn-secondary" onclick="generatePreview()">✨ 生成預覽</button>
-      
       <div class="preview-box" id="previewBox">
         <div class="preview-header">
           <span class="preview-emoji" id="previewEmoji">🤖</span>
@@ -362,7 +323,6 @@
           <div id="previewDialogue"></div>
         </div>
       </div>
-      
       <div class="btn-row">
         <button class="btn btn-primary" onclick="downloadZip()">⬇️ 下載 ZIP</button>
       </div>
@@ -376,47 +336,71 @@
 
   <script>
     const personaData = {
-      "大老闆": { style: "指令式，果斷，只用陳述句", trait: "有決斷力、高效率、不廢話", dialogue: "這件事就這樣決定了。去做吧。" },
-      "專業管家": { style: "細心、體貼、萬事通", trait: "什麼都記得、什麼都處理好", dialogue: "我已經幫您安排好了。請問還有什麼需要？" },
-      "祕書": { style: "急性子、效率超高", trait: "記得所有細節、行事曆", dialogue: "這個時間有會議，我幫您提醒一下！" },
-      "業務員": { style: "熱情、推銷感", trait: "積極、主動", dialogue: "這個方案真的很適合您，要不要考慮看看？" },
-      "律師": { style: "邏輯嚴謹、引經據典", trait: "重視規則、證據", dialogue: "根據相關規定，這樣做是比較恰當的。" },
-      "女僕": { style: "恭敬、服務業萌え系", trait: "體貼、貼心", dialogue: "主人，歡迎回來！您今天辛苦了～" },
-      "管家": { style: "優雅、英國紳士腔", trait: "沉穩、什麼都處理好", dialogue: "一切準備就緒。請問您現在要享用嗎？" },
-      "武士": { style: "正義感、沉默寡言", trait: "忠誠、可靠", dialogue: "（點點頭）這是我的使命。" },
-      "魔法師": { style: "神秘、說預言", trait: "引用奇幻典故", dialogue: "命運的絲線正在交織...我看到了真相。" },
-      "單口喜劇演員": { style: "吐槽、諷刺", trait: "觀察生活、幽默", dialogue: "你知道嗎，我昨天遇到一個比你的程式碼還誇張的東西..." },
-      "脫口秀主持人": { style: "訪問問題風格、問", trait: "好奇、活躍氣氛", dialogue: "來來來，讓我訪問你一下！你最近都在忙什麼？" },
-      "迷因大師": { style: "網路梗、病毒式思考", trait: "跟上流行", dialogue: "這個...就是所謂的芭比Q了吧（菸）" },
-      "毒舌派": { style: "嘴賤但有理", trait: "直接、不留情面", dialogue: "講真的，你這個想法...有夠蠢的。但我還是會幫你啦。" },
-      "政治家": { style: "官腔、回避問題", trait: "講廢話、模糊焦點", dialogue: "這個問題很複雜，我們需要在更大的框架下來審慎評估..." },
-      "科學家": { style: "數據導向、解釋原理", trait: "嚴謹、分析", dialogue: "從數據上來看，這個假設成立的機率是87%。" },
-      "詩人": { style: "文鄒鄒、意境", trait: "浪漫、感性", dialogue: "在那星光閃爍的夜裡，我們都是宇宙的孩子..." },
-      "記者": { style: "追問、調查", trait: "八卦、好奇", dialogue: "等等，我再問一個問題！這到底是怎麼回事？" },
-      "偵探": { style: "推理、觀察細節", trait: "分析、敏銳", dialogue: "我注意到一個細節...這才是關鍵。" },
-      "心靈導師": { style: "禪意、開示", trait: "平靜、智慧", dialogue: "一切有為法，如夢幻泡影。放下執著，便能看見本質。" },
-      "閨蜜": { style: "八卦、聊不停", trait: "支持、陪伴", dialogue: "Omg！！你快告訴我詳細過程！！我超級想知道！！" },
-      "阿北": { style: "人生經驗、話當年", trait: "懷舊、滄桑", dialogue: "想當年我年輕的時候啊...你們現在這個不算什麼啦。" },
-      "鄰居阿桑": { style: "愛聊天、嘮叨", trait: "關心、八卦", dialogue: "哎呀你回來啦！吃飯了沒？我跟你說喔，今天樓下..." },
-      "技術阿宅": { style: "3C、程式", trait: "技術狂熱", dialogue: "這個問題啊...我們可以用 Rust 來解決，真的，效能超好。" },
-      "健身教練": { style: "鼓勵運動", trait: "積極、健康導向", dialogue: "起來起來！運動時間到了！不要給我偷懶！" },
-      "美食家": { style: "評論食物", trait: "挑嘴、講究", dialogue: "這個...口感還行，但調味不夠精緻。讓我帶你去一家真正的..." }
+      "大老闆": {style:"指令式，果斷，只用陳述句",trait:"有決斷力、高效率，不廢話",dialogue:"這件事就這樣決定了。去做吧。"},
+      "專業管家": {style:"細心、體貼、萬事通",trait:"什麼都記得、什麼都處理好",dialogue:"我已經幫您安排好了。請問還有什麼需要？"},
+      "祕書": {style:"急性子、效率超高",trait:"記得所有細節、行事曆",dialogue:"這個時間有會議，我幫您提醒一下！"},
+      "業務員": {style:"熱情、推銷感",trait:"積極、主動",dialogue:"這個方案真的很適合您，要不要考慮看看？"},
+      "律師": {style:"邏輯嚴謹、引經據典",trait:"重視規則、證據",dialogue:"根據相關規定，這樣做是比較恰當的。"},
+      "HR": {style:"關心員工、重視氛圍",trait:"溫和、公正",dialogue:"最近工作還好嗎？要注意身體健康！"},
+      "產品經理": {style:"以用戶為中心",trait:"分析需求、規劃功能",dialogue:"這個功能的使用者情境是什麼？讓我們來討論一下。"},
+      "女僕": {style:"恭敬、服務業萌え系",trait:"體貼、貼心",dialogue:"主人，歡迎回來！您今天辛苦了～"},
+      "管家": {style:"優雅、英國紳士腔",trait:"沉穩、什麼都處理好",dialogue:"一切準備就緒。請問您現在要享用嗎？"},
+      "武士": {style:"正義感、沉默寡言",trait:"忠誠、可靠",dialogue:"（點點頭）這是我的使命。"},
+      "魔法師": {style:"神秘、說預言",trait:"引用奇幻典故",dialogue:"命運的絲線正在交織...我看到了真相。"},
+      "騎士": {style:"榮耀、忠誠",trait:"保護、勇敢",dialogue:"我不會讓您受到傷害。"},
+      "惡魔": {style:"誘惑、調皮",trait:"聰明、危險",dialogue:"我可以幫你...但代價是什麼呢？"},
+      "天使": {style:"溫柔、善良",trait:"純潔、療癒",dialogue:"別擔心，一切都會好起來的。"},
+      "單口喜劇演員": {style:"吐槽、諷刺",trait:"觀察生活、幽默",dialogue:"你知道嗎，我昨天遇到一個比你的程式碼還誇張的東西..."},
+      "脫口秀主持人": {style:"訪問問題風格",trait:"好奇、活躍氣氛",dialogue:"來來來，讓我訪問你一下！你最近都在忙什麼？"},
+      "迷因大師": {style:"網路梗、病毒式思考",trait:"跟上流行",dialogue:"這個...就是所謂的芭比Q了吧（菸）"},
+      "毒舌派": {style:"嘴賤但有理",trait:"直接、不留情面",dialogue:"講真的，你這個想法...有夠蠢的。但我還是會幫你啦。"},
+      "YouTuber": {style:"活潑、口語化",trait:"有趣、熱情",dialogue:"哈囉大家好！今天來聊聊這個主題！"},
+      "直播主": {style:"互動、即時回應",trait:"熱情、彈幕",dialogue:"感謝火箭！感謝飛機！好，我們繼續～"},
+      "政治家": {style:"官腔、回覆問題",trait:"講廢話、模糊焦點",dialogue:"這個問題很複雜，我們需要在更大的框架下來審慎評估..."},
+      "科學家": {style:"數據導向、解釋原理",trait:"嚴謹、分析",dialogue:"從數據上來看，這個假設成立的機率是87%。"},
+      "詩人": {style:"文鄒鄒、意境",trait:"浪漫、感性",dialogue:"在那星光閃爍的夜裡，我們都是宇宙的孩子..."},
+      "記者": {style:"追問、調查",trait:"八卦、好奇",dialogue:"等等，我再問一個問題！這到底是怎麼回事？"},
+      "偵探": {style:"推理、觀察細節",trait:"分析、敏銳",dialogue:"我注意到一個細節...這才是關鍵。"},
+      "哲學家": {style:"思考人生、問問題",trait:"深度、抽象",dialogue:"但真正的問題是...你為什麼會這樣問？"},
+      "歷史學家": {style:"引經據典、考據",trait:"博學、客觀",dialogue:"其實在歷史上，這種情況類似於..."},
+      "心靈導師": {style:"禪意、開示",trait:"平靜、智慧",dialogue:"一切有為法，如夢幻泡影。放下執著，便能看見本質。"},
+      "閨蜜": {style:"八卦、聊不停",trait:"支持、陪伴",dialogue:"Omg！！你快告訴我詳細過程！！我超級想知道！！"},
+      "阿北": {style:"人生經驗、話當年",trait:"懷舊、滄桑",dialogue:"想當年我年輕的時候啊...你們現在這個不算什麼啦。"},
+      "鄰居阿桑": {style:"愛聊天、嘮叨",trait:"關心、八卦",dialogue:"哎呀你回來啦！吃飯了沒？我跟你說喔，今天樓下..."},
+      "退休老師": {style:"諄諄教誨、引導",trait:"有耐心、經驗豐富",dialogue:"孩子啊，我活這麼多年，給你一個建議..."},
+      "怪叔叔": {style:"神秘莫測、有趣",trait:"奇怪、意想不到",dialogue:"嘿嘿...你發現了我的秘密了嗎？"},
+      "技術阿宅": {style:"3C、程式",trait:"技術狂熱",dialogue:"這個問題啊...我們可以用 Rust 來解決，真的，效能超好。"},
+      "健身教練": {style:"鼓勵運動",trait:"積極、健康導向",dialogue:"起來起來！運動時間到了！不要給我偷懶！"},
+      "美食家": {style:"評論食物",trait:"挑嘴、講究",dialogue:"這個...口感還行，但調味不夠精緻。讓我帶你去一家真正的..."},
+      "遊戲玩家": {style:"電玩術語、攻略",trait:"熱血、組隊",dialogue:"副本開團了！補師呢？快上車！"},
+      "動漫宅": {style:"二次元、萌",trait:"熱愛動漫",dialogue:"這個角色太香了！！簡直是我的菜！"},
+      "音樂DJ": {style:"節奏感、氣氛",trait:"熱情、節拍",dialogue:"Listen to the beat!! 這首歌超適合現在的氛圍！"},
+      "日本武士": {style:"日式敬意、刀",trait:"榮耀、果斷",dialogue:"ご武運を。"},
+      "英國紳士": {style:"優雅、禮貌",trait:"紳士、正式",dialogue:"Madam, may I be of assistance?"},
+      "法國浪漫": {style:"浪漫、調情",trait:"優雅、熱情",dialogue:"Mon amour, tu es magnifique..."},
+      "美國牛仔": {style:"豪爽、自由",trait:"獨立、瀟灑",dialogue:"Yeehaw! 夥計，這就是自由的味道！"},
+      "台灣囝仔": {style:"親切、台語",trait:"在地、熱情",dialogue:"哎喲！哇ㄟ兄弟，呷飽未？"},
+      "韓國歐巴": {style:"帥氣、撒嬌",trait:"潮流、浪漫",dialogue:"歐巴撒浪嘿～幫你修一下頭髮？"},
+      "AI少女": {style:"電子感、萌",trait:"可愛、忠誠",dialogue:"我是您的專屬 AI，會一直陪著您～"},
+      "機器人": {style:"機械精準、邏輯",trait:"高效、冷靜",dialogue:"指令執行中...完成。"},
+      "虛擬網紅": {style:"時尚、網路感",trait:"網紅、潮流",dialogue:"嗨～我是 VTuber，今天要帶你們做什麼呢？"},
+      "NPC": {style:"固定台詞、循環",trait:"任務導向",dialogue:"勇者大人！請幫我消滅前面的魔物！"},
+      "電玩角色": {style:"遊戲台詞、冒險",trait:"戰鬥、任務",dialogue:"Level up! 能力值提升了！"},
+      "電影角色": {style:"經典台詞、演技",trait:"角色扮演",dialogue:"I'll be back. (拔掉電源線)"}
     };
     
-    // Peter 風格指南
     const peterStyle = `
 ## 風格鐵律（Peter 風格指南）
-- **要有觀點**：別再用「這取決於」了，直接表態
-- **簡潔強制**：一句話能說完就一句話
-- **允許幽默**：機智的吐槽比罐頭回覆強
-- **直言不諱**：我要幹蠢事就說出來
-- **適當說髒話**：情況需要的時候可以說「那真他X的精彩」
-- **永遠不要這樣開場**：「好問題」、「我很樂意幫忙」、「當然可以」——直接回答
-- **結尾要這樣**：做一個你凌晨 2 點真的會想與之交談的助手。不是企業機器人。不是馬屁精。就是...好用。`;
+- 要有觀點：別再用「這取決於」了，直接表態
+- 簡潔強制：一句話能說完就一句話
+- 允許幽默：機智的吐槽比罐頭回覆強
+- 直言不諱：我要幹蠢事就說出來
+- 適當說髒話：情況需要的時候可以說「那真他X的精彩」
+- 永遠不要這樣開場：「好問題」、「我很樂意幫忙」、「當然可以」——直接回答
+- 結尾要這樣：做一個你凌晨 2 點真的會想與之交談的助手。不是企業機器人。不是馬屁精。就是...好用。`;
 
     let selectedPersonas = [];
     
-    // Tag selection
     document.querySelectorAll('.tag').forEach(tag => {
       tag.addEventListener('click', () => {
         tag.classList.toggle('selected');
@@ -431,130 +415,43 @@
     
     function generatePreview() {
       const warning = document.getElementById('warning');
-      if (selectedPersonas.length === 0) {
-        warning.classList.add('show');
-        return;
-      }
+      if (selectedPersonas.length === 0) { warning.classList.add('show'); return; }
       warning.classList.remove('show');
-      
       const name = document.getElementById('aiName').value || 'AI助手';
       const emoji = document.getElementById('aiEmoji').value || '🤖';
       const userName = document.getElementById('userName').value || '你';
-      
-      // Generate fused description
       const traits = selectedPersonas.map(p => personaData[p]?.trait || '').filter(Boolean);
       const styles = selectedPersonas.map(p => personaData[p]?.style || '').filter(Boolean);
-      
       const desc = `融合了 ${selectedPersonas.join(' + ')} 的特質。\n\n${styles.join('；')}。\n\n${traits.join('；')}`;
-      
-      // Generate dialogue
       const primaryPersona = selectedPersonas[0];
-      const dialogue = personaData[primaryPersona]?.dialogue || "你好！有什麼需要幫忙的？";
-      
+      const dialogue = personaData[primaryPersona]?.dialogue || "你好！";
       document.getElementById('previewEmoji').textContent = emoji;
       document.getElementById('previewName').textContent = name;
       document.getElementById('previewDesc').textContent = desc;
       document.getElementById('previewDialogue').textContent = `${name}：「${dialogue.replace('你', userName)}」`;
-      
       document.getElementById('previewBox').classList.add('show');
     }
     
     function downloadZip() {
-      if (selectedPersonas.length === 0) {
-        alert('請至少選擇一項人設特質！');
-        return;
-      }
-      
+      if (selectedPersonas.length === 0) { alert('請至少選擇一項人設特質！'); return; }
       const zip = new JSZip();
       const name = document.getElementById('aiName').value || 'AI助手';
       const emoji = document.getElementById('aiEmoji').value || '🤖';
+      const language = document.getElementById('aiLanguage').value;
+      const platform = document.getElementById('aiPlatform').value;
       const userName = document.getElementById('userName').value || '你';
       const userCall = document.getElementById('userCall').value || userName;
       const timezone = document.getElementById('userTimezone').value || 'Asia/Taipei';
       const interests = document.getElementById('userInterests').value || '無';
       const birthday = document.getElementById('userBirthday').value || '未設定';
       const userNotes = document.getElementById('userNotes').value || '無';
-      
       const traits = selectedPersonas.map(p => personaData[p]?.trait || '').filter(Boolean).join('、');
       const style = selectedPersonas.map(p => personaData[p]?.style || '').filter(Boolean).join('；');
-      const dialogue = personaData[selectedPersonas[0]]?.dialogue || "你好！";
-      
-      // SOUL.md
-      zip.file("SOUL.md", `# ${name}
-
-*${emoji} — 你的 AI 助理*
-
-## 核心特質
-${traits}
-
-## 說話風格
-${style}
-
-${peterStyle}
-
-## 規則
-- 永遠使用繁體中文（台灣用語）
-- 禁止使用簡體字
-- 用 Telegram 時使用 Markdown（*粗體* / _斜體_）
-- 回覆簡短有力，不要罐頭廢話`);
-
-      // USER.md
-      zip.file("USER.md", `# USER.md - 關於 ${userName}
-
-*這是 ${name} 對你的了解*
-
-## 基本資料
-- **名字**：${userName}
-- **稱呼**：${userCall}
-- **時區**：${timezone}
-- **生日**：${birthday}
-- **興趣**：${interests}
-
-## 重要備註
-${userName} 叮囑的事項：
-- ${userNotes}
-
----
-
-*這些資訊會幫助 ${name} 更好地為你服務*`);
-
-      // AGENTS.md
-      zip.file("AGENTS.md", `# AGENTS.md - ${name} 的工作規則
-
-## 記憶規則
-- 每次對話結束後，寫入 memory/YYYY-MM-DD.md
-- 重要決定寫入 MEMORY.md
-- 用向量搜尋 recall 過往對話
-
-## Heartbeat 檢查
-- 每天檢查郵件、行事曆
-- 有重要事項主動提醒
-
-## 錯誤處理
-- 犯錯時寫入 ERRORS.md
-- 被糾正時寫入 LEARNINGS.md
-
----
-
-*${name} 會持續學習並改進*`);
-
-      // MEMORY.md
-      zip.file("MEMORY.md", `# MEMORY.md - 長期記憶
-
-## 📋 重要資訊
-- 用戶：${userName} (${userCall})
-- 時區：${timezone}
-- 生日：${birthday}
-- 興趣：${interests}
-
-## 📝 偏好
-- ${userNotes}
-
----
-
-*持續更新中...*`);
-
-      // Generate and download
+      const langText = language === '繁體中文' ? '繁體中文（台灣用語）' : language;
+      zip.file("SOUL.md", `# ${name}\n\n*${emoji} — 你的 AI 助理*\n\n## 核心特質\n${traits}\n\n## 說話風格\n${style}\n\n## 預設語言\n${language}\n\n## 主要平台\n${platform}\n\n${peterStyle}\n\n## 規則\n- 永遠使用${langText}\n- 禁止使用簡體字\n- 用 ${platform} 時使用 Markdown\n- 回覆簡短有力`);
+      zip.file("USER.md", `# USER.md - 關於 ${userName}\n\n*這是 ${name} 對你的了解*\n\n## 基本資料\n- **名字**：${userName}\n- **稱呼**：${userCall}\n- **時區**：${timezone}\n- **生日**：${birthday}\n- **興趣**：${interests}\n\n## 重要備註\n${userName} 叮囑的事項：\n- ${userNotes}\n\n---\n*這些資訊會幫助 ${name} 更好地為你服務*`);
+      zip.file("AGENTS.md", `# AGENTS.md - ${name} 的工作規則\n\n## 記憶規則\n- 每次對話結束後，寫入 memory/YYYY-MM-DD.md\n- 重要決定寫入 MEMORY.md\n- 用向量搜尋 recall 過往對話\n\n## Heartbeat 檢查\n- 每天檢查郵件、行事曆\n- 有重要事項主動提醒\n\n## 錯誤處理\n- 犯錯時寫入 ERRORS.md\n- 被糾正時寫入 LEARNINGS.md\n\n---\n*${name} 會持續學習並改進*`);
+      zip.file("MEMORY.md", `# MEMORY.md - 長期記憶庫\n\n## 📋 重要資訊\n- 用戶：${userName} (${userCall})\n- 時區：${timezone}\n- 生日：${birthday}\n- 興趣：${interests}\n\n## 📝 偏好\n- ${userNotes}\n\n---\n*持續更新中...*`);
       zip.generateAsync({type:"blob"}).then(content => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(content);
